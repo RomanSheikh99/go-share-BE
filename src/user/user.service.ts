@@ -21,8 +21,14 @@ export class UserService {
         return this.userModel.find().select('name age id email');
     }
 
+   
+
     async findOne(email: string): Promise<User> {
         return this.userModel.findOne({email: email});
+    }
+
+    async findOneById(sub: string): Promise<User> {
+        return this.userModel.findOne({id: sub});
     }
 
     async updateOne(id: string, updatedUser: CreateUserDTO): Promise<User> {
