@@ -1,8 +1,8 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards, Request, Res, Req } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards, Res, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
-import { SingInDTO, SingUpDTO } from './auth.dto';
-import { Response } from 'express';
+import { SignInDTO, SignUpDTO } from './auth.dto';
+import { Request, Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -10,17 +10,12 @@ export class AuthController {
 
 
   @HttpCode(HttpStatus.OK)
-  @Post('singup')
-  async signUp(@Body() signUpDto: SingUpDTO, @Res({ passthrough: true }) res: Response) {
+  @Post('signup')
+  async signUp(@Body() signUpDto: SignUpDTO, @Res({ passthrough: true }) res: Response) {
     try {
-      const response = await this.authService.singUp(signUpDto);
+      const response = await this.authService.signUp(signUpDto);
       if (response.token) {
-        res.cookie('token', response.token, {
-          httpOnly: true,
-          domain: 'localhost:4200',
-          secure: true,
-          sameSite: 'none'
-        });
+        res.cookie('token', response.token);
       }
       return response;
     } catch (error) {
@@ -30,17 +25,12 @@ export class AuthController {
 
 
   @HttpCode(HttpStatus.OK)
-  @Post('singin')
-  async signIn(@Body() signInDto: SingInDTO, @Res({ passthrough: true }) res: Response) {
+  @Post('signin')
+  async signIn(@Body() signInDto: SignInDTO, @Res({ passthrough: true }) res: Response) {
     try {
-      const response = await this.authService.singIn(signInDto);
+      const response = await this.authService.signIn(signInDto);
       if (response.token) {
-        res.cookie('token', response.token, {
-          httpOnly: true,
-          domain: 'localhost:4200',
-          secure: true,
-          sameSite: 'none'
-        });
+        res.cookie('token', response.token);
       }
       return response;
     } catch (error) {
@@ -49,17 +39,15 @@ export class AuthController {
   }
 
 
-
   @UseGuards(AuthGuard)
   @Get('profile')
-  async getProfile(@Request() req: any) {
+  async getProfile(@Req() req: Request) {
     try {
-      const user = await this.authService.getProfile(req.user.sub);
+      const user = await this.authService.getProfile(req.body.sub);
       return user;
     } catch (error) {
       return error;
     }
-
   }
-
 }
+

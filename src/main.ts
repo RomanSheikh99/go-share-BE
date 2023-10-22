@@ -2,20 +2,26 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
-declare const module: any;
+import { NestExpressApplication } from '@nestjs/platform-express'; 
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule,{ abortOnError: false });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, { abortOnError: false });
   app.useGlobalPipes(new ValidationPipe());
-  app.enableCors();
   app.use(cookieParser());
-  await app.listen(process.env.PORT,() => {
-    console.log(`server is running on port http://${process.env.HOST}:${process.env.PORT}`);
+
+  app.enableCors({
+    origin: 'http://localhost:4200', 
+    credentials: true,
   });
 
-  if (module.hot) {
-    module.hot.accept();
-    module.hot.dispose(() => app.close());
-  }
+  await app.listen(process.env.PORT, () => {
+    console.log(`Server is running on http://${process.env.HOST}:${process.env.PORT}`);
+  });
+
+  // if (module.hot) {
+  //   module.hot.accept();
+  //   module.hot.dispose(() => app.close());
+  // }
 }
+
 bootstrap();

@@ -1,16 +1,16 @@
 import { IsEmail } from "class-validator";
 
-export class SingInDTO {
+export class SignInDTO {
     
     @IsEmail()
     readonly email: string;
     readonly password: string;
 }
 
-export class SingUpDTO {
-    name: string;
+export class SignUpDTO {
+    readonly name: string;
 
     @IsEmail()
-    email: string;
+    readonly email: string;
     password: string;
 }

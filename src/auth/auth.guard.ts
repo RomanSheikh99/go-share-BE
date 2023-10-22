@@ -14,8 +14,8 @@ import { jwtConstants } from './auth.constants';
 export class AuthGuard implements CanActivate {
   constructor(private jwtService: JwtService, private reflector: Reflector) {}
  
+  
   async canActivate(context: ExecutionContext): Promise<boolean> {
-
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
@@ -36,7 +36,7 @@ export class AuthGuard implements CanActivate {
           secret: jwtConstants.secret,
         }
       );
-      request['user'] = payload;
+      request.body = payload;
     } catch {
       throw new UnauthorizedException();
     }
@@ -44,7 +44,7 @@ export class AuthGuard implements CanActivate {
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
-    return type === 'Bearer' ? token : undefined;
+    const {token} = request.cookies;
+    return token ? token : undefined;
   }
 }
