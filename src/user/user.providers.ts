@@ -1,6 +1,5 @@
 import { Connection } from 'mongoose';
 import { UserSchema } from './user.schema';
-// import { CatSchema } from './schemas/cat.schema';
 
 export const userProviders = [
   {

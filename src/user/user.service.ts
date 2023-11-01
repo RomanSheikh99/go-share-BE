@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { User } from './user.interface';
 import { CreateUserDTO } from './user.dto';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class UserService {
@@ -12,16 +13,13 @@ export class UserService {
 
     async create(userDto: CreateUserDTO): Promise<User> {
         const user = new this.userModel(userDto);
-        user.id = Date.now() + `${user.name.split(' ').join("@")}` + Math.random() * 100;
+        user.id = uuidv4();
         return (await user.save());
     }
-
 
     async findAll(): Promise<User[]> {
         return this.userModel.find().select('name age id email');
     }
-
-   
 
     async findOne(email: string): Promise<User> {
         return this.userModel.findOne({email: email});

@@ -12,7 +12,6 @@ export class AppController {
 
   @Post()
   postHello(data: any): string {
-    console.log(data);
     return "showing data";
   }
 }

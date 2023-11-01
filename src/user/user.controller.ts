@@ -17,7 +17,6 @@ constructor(private readonly appService: UserService) {}
 
   @Post()
   postHello(@Body() user: CreateUserDTO): Promise<User> {
-    console.log(user);
     return this.appService.create(user);
   }
 
