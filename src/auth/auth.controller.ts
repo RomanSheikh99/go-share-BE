@@ -43,7 +43,7 @@ export class AuthController {
   @Get('profile')
   async getProfile(@Req() req: Request) {
     try {
-      const user = await this.authService.getProfile(req.body.sub);
+      const user = await this.authService.getProfile(req.body.user.sub);
       return user;
     } catch (error) {
       return error;

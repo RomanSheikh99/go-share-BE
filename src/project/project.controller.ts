@@ -11,9 +11,11 @@ export class ProjectController {
 
     @UseGuards(AuthGuard)
     @Post()
-    post(@Body() project: ProjectDTO): Promise<Project> {
+    async post(@Body() project: ProjectDTO): Promise<{url: String}> {
       try {
-        return this.projects.create(project);
+        const res = await this.projects.create(project)
+        console.log({url: res.payUrl})
+        return {url: res.payUrl};
       } catch (error) {
         return error;
       }

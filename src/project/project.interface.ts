@@ -11,9 +11,8 @@ interface CargoItem {
 
 export interface Project {
     projectId: String;
+    payUrl: String;
     userId: String;
-    userEmail: String;
-    UserName: String;
     time: String;
     date: String;
     distance: Number;

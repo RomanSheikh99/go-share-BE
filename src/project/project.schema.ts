@@ -14,8 +14,8 @@ const CargoItemSchema = new mongoose.Schema({
 export const ProjectSchema = new mongoose.Schema({
     projectId: String,
     userId: String,
-    userEmail: String,
-    UserName: String,
+    payUrl: String,
+    payId: String,
     time: String,
     date: String,
     distance: Number,

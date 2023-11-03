@@ -11,6 +11,10 @@ class CargoItemDTO {
 
 export class ProjectDTO {
     cargoItems: CargoItemDTO[];
+    projectId: String;
+    userId: String;
+    payUrl: String;
+    payId: String;
     date: string;
     distance: number;
     duration: number;
@@ -19,8 +23,6 @@ export class ProjectDTO {
     endLocation: string;
     extraCost: number;
     helperCost: number;
-    userId: string;
-    name: string;
     startCoordinates: [number, number];
     startLocation: string;
     time: string;
@@ -39,4 +41,8 @@ export class ProjectDTO {
         weight: number;
         width: number;
     };
+    user:{
+        sub: string
+    }
 }
+
