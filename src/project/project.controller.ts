@@ -14,7 +14,6 @@ export class ProjectController {
     async post(@Body() project: ProjectDTO): Promise<{url: String}> {
       try {
         const res = await this.projects.create(project)
-        console.log({url: res.payUrl})
         return {url: res.payUrl};
       } catch (error) {
         return error;
@@ -24,25 +23,31 @@ export class ProjectController {
     @UseGuards(AuthGuard)
     @Get()
     getProjects(): Promise<Project[]> {
-      return this.projects.findAll();
+      return this.projects.findOpenProject();
     }
   
+    @UseGuards(AuthGuard)
+    @Get("/driver/:id")
+    getDriverProjects(@Param('id') id: string): Promise<Project[]> {
+      return this.projects.findDriverProject(id);
+    }
+
     @UseGuards(AuthGuard)
     @Get(":id")
     getUserProjects(@Param('id') id: string): Promise<Project[]> {
       return this.projects.findById(id);
     }
+
+
+    @Put('checkbids')
+    checkBids() {
+      this.projects.checkBids();
+    }
+
+    @Put(':id')
+    update(@Param('id') id: string, @Body() body: any) {
+      return this.projects.addBids(id, body.price, body.driverId, body.name);
+    }
   
-   
-  
-    // @Put(':id')
-    // update(@Param('id') id: string, @Body() project: Project) {
-    //   return this.projects.updateOne(id, project);
-    // }
-  
-    // @Delete(':id')
-    // remove(@Param('id') id: string) {
-    //   return this.projects.deleteOne(id);
-    // }
 
 }

@@ -6,10 +6,11 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { ProjectModule } from './project/project.module';
+import { PaymentsModule } from './payments/payments.module';
 
 
 @Module({
-  imports: [DatabaseModule, UserModule, ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }), AuthModule, ProjectModule],
+  imports: [DatabaseModule, UserModule, ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }), AuthModule, ProjectModule, PaymentsModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -44,5 +44,6 @@ export class ProjectDTO {
     user:{
         sub: string
     }
+    bids: any;
 }
 

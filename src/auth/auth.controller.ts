@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards, Res, Req } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards, Res, Req, Param } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { SignInDTO, SignUpDTO } from './auth.dto';
@@ -46,6 +46,20 @@ export class AuthController {
       const user = await this.authService.getProfile(req.body.user.sub);
       return user;
     } catch (error) {
+      return error;
+    }
+  }
+
+
+  @UseGuards(AuthGuard)
+  @Get('driver/:id')
+  async getDriver(@Param('id') id: string) {
+    try {
+      console.log("hello")
+      const user = await this.authService.getProfile(id);
+      return user;
+    } catch (error) {
+      console.log(error)
       return error;
     }
   }
