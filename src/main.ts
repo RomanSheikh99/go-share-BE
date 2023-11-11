@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
-import { NestExpressApplication } from '@nestjs/platform-express'; 
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -10,12 +10,14 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.enableCors({
-    origin: 'http://localhost:4200', 
+    origin: 'http://localhost:4200',
     credentials: true,
   });
 
   await app.listen(process.env.PORT, () => {
-    console.log(`Server is running on http://${process.env.HOST}:${process.env.PORT}`);
+    console.log(
+      `Server is running on http://${process.env.HOST}:${process.env.PORT}`,
+    );
   });
 
   // if (module.hot) {

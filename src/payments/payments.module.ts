@@ -7,14 +7,16 @@ import { DatabaseModule } from 'src/database/database.module';
 
 @Module({
   controllers: [PaymentsController],
-  providers: [PaymentsService,
+  providers: [
+    PaymentsService,
     {
       provide: 'PAYMENT_MODEL',
-      useFactory: (connection: Connection) => connection.model('Payment', PaymentSchema),
+      useFactory: (connection: Connection) =>
+        connection.model('Payment', PaymentSchema),
       inject: ['DATABASE_CONNECTION'],
-    }],
+    },
+  ],
   imports: [DatabaseModule],
-  exports: [PaymentsService]
-
+  exports: [PaymentsService],
 })
-export class PaymentsModule { }
+export class PaymentsModule {}

@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { User } from './user.interface';
-import { CreateUserDTO } from './user.dto';
+import { CreateUserDTO } from './DTOs/user.dto';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()

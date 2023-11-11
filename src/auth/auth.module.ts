@@ -7,12 +7,16 @@ import { jwtConstants } from './auth.constants';
 import { DriverModule } from 'src/driver/driver.module';
 
 @Module({
-  imports: [DriverModule,UserModule,JwtModule.register({
-    global: true,
-    secret: jwtConstants.secret,
-    signOptions: { expiresIn:  jwtConstants.maxAge },
-  })],
+  imports: [
+    DriverModule,
+    UserModule,
+    JwtModule.register({
+      global: true,
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: jwtConstants.maxAge },
+    }),
+  ],
   controllers: [AuthController],
-  providers: [AuthService]
+  providers: [AuthService],
 })
 export class AuthModule {}

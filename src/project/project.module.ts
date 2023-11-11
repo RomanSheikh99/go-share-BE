@@ -8,6 +8,6 @@ import { PaymentsModule } from 'src/payments/payments.module';
 @Module({
   imports: [DatabaseModule, PaymentsModule],
   controllers: [ProjectController],
-  providers: [ProjectService,...projectProviders ]
+  providers: [ProjectService, ...projectProviders],
 })
 export class ProjectModule {}

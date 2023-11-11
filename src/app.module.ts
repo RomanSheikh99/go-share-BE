@@ -8,10 +8,16 @@ import { AuthModule } from './auth/auth.module';
 import { ProjectModule } from './project/project.module';
 import { PaymentsModule } from './payments/payments.module';
 
-
 @Module({
-  imports: [DatabaseModule, UserModule, ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }), AuthModule, ProjectModule, PaymentsModule],
+  imports: [
+    DatabaseModule,
+    UserModule,
+    ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
+    AuthModule,
+    ProjectModule,
+    PaymentsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

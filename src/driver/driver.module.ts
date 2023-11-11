@@ -7,14 +7,17 @@ import { Connection } from 'mongoose';
 import { DatabaseModule } from 'src/database/database.module';
 
 @Module({
-  imports:[DatabaseModule],
+  imports: [DatabaseModule],
   controllers: [DriverController],
-  providers: [DriverService,
+  providers: [
+    DriverService,
     {
       provide: 'DRIVER_MODEL',
-      useFactory: (connection: Connection) => connection.model('Driver', DriverSchema),
+      useFactory: (connection: Connection) =>
+        connection.model('Driver', DriverSchema),
       inject: ['DATABASE_CONNECTION'],
-    }],
-  exports:[DriverService]
+    },
+  ],
+  exports: [DriverService],
 })
 export class DriverModule {}
