@@ -27,3 +27,4 @@ export class SignUpDTO {
   @IsNotEmpty()
   type: number;
 }
+// This is test
