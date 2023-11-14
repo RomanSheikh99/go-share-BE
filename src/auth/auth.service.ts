@@ -1,4 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 import { SignInDTO, SignUpDTO } from './auth.dto';
@@ -39,7 +44,7 @@ export class AuthService {
       const token = await this.jwtService.signAsync(payload);
       return { token };
     } catch (error) {
-      return error;
+      throw new Error(error?.message);
     }
   }
 
@@ -59,7 +64,8 @@ export class AuthService {
       const token = await this.jwtService.signAsync(payload);
       return { token };
     } catch (error) {
-      return error;
+      console.error('Error during userSignUp:', error.message);
+      throw new InternalServerErrorException('Internal Server Error');
     }
   }
 
@@ -68,7 +74,7 @@ export class AuthService {
       const user = await this.usersService.findOne(signInDto.email);
       const driver = await this.driverService.findOne(signInDto.email);
       if (!user && !driver) {
-        throw new UnauthorizedException('user not find');
+        throw new NotFoundException('user not find');
       }
       const password = user ? user.password : driver.password;
       const passwordsMatch = await bcrypt.compare(signInDto.password, password);
@@ -80,22 +86,25 @@ export class AuthService {
       const token = await this.jwtService.signAsync(payload);
       return { token };
     } catch (error) {
-      return error;
+      console.error('Error during user sign in:', error.message);
+      throw new InternalServerErrorException('Internal Server Error');
     }
   }
 
   async getProfile(sub: string): Promise<any> {
+    console.error('sub', sub);
     try {
       let user = await this.usersService.findOneById(sub);
       let driver = await this.driverService.findOneById(sub);
       if (!user && !driver) {
-        throw new UnauthorizedException('user not find');
+        throw new NotFoundException('user not find');
       }
       const type = user ? 1 : 2;
       const { id, name, email } = user ? user : driver;
       return { id, name, email, type };
     } catch (error) {
-      return error;
+      console.error(error);
+      throw new Error(error.message);
     }
   }
 }

@@ -24,7 +24,8 @@ export class ProjectController {
       const res = await this.projects.create(project);
       return { url: res.payUrl };
     } catch (error) {
-      return error;
+      console.error(error);
+      throw new Error(error.message);
     }
   }
 

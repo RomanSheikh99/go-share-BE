@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { PaymentsRecive } from './payments.interface';
 
@@ -14,7 +14,8 @@ export class PaymentsService {
       const pay = new this.paymentModel(session);
       return await pay.save();
     } catch (error) {
-      return error;
+      console.error(error);
+      throw new Error(error.message);
     }
   }
 
@@ -22,7 +23,8 @@ export class PaymentsService {
     try {
       return this.paymentModel.find();
     } catch (error) {
-      return error;
+      console.error(error);
+      throw new NotFoundException(error.message);
     }
   }
 
@@ -30,7 +32,8 @@ export class PaymentsService {
     try {
       return this.paymentModel.find({ userID: id });
     } catch (error) {
-      return error;
+      console.error(error);
+      throw new NotFoundException(error.message);
     }
   }
 }

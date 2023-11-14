@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Driver, DriverDTO } from './driver.interface';
@@ -21,8 +21,8 @@ export class DriverService {
       newDriver.license = driver.dl;
       return await newDriver.save();
     } catch (error) {
-      console.log(error);
-      return error;
+      console.error(error);
+      throw new Error(error.message);
     }
   }
 
@@ -34,7 +34,8 @@ export class DriverService {
     try {
       return this.driverModel.findOne({ email: email });
     } catch (error) {
-      return error;
+      console.error(error);
+      throw new NotFoundException(error.message);
     }
   }
 

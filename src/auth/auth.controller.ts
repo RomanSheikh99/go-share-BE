@@ -9,6 +9,7 @@ import {
   Res,
   Req,
   Param,
+  NotFoundException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
@@ -32,7 +33,8 @@ export class AuthController {
       }
       return response;
     } catch (error) {
-      return error;
+      console.error(error);
+      throw new Error(error.message);
     }
   }
 
@@ -49,7 +51,8 @@ export class AuthController {
       }
       return response;
     } catch (error) {
-      return error;
+      console.error(error);
+      throw new Error(error.message);
     }
   }
 
@@ -60,7 +63,8 @@ export class AuthController {
       const user = await this.authService.getProfile(req.body.user.sub);
       return user;
     } catch (error) {
-      return error;
+      console.error(error);
+      throw new Error(error.message);
     }
   }
 
@@ -72,8 +76,8 @@ export class AuthController {
       const user = await this.authService.getProfile(id);
       return user;
     } catch (error) {
-      console.log(error);
-      return error;
+      console.error(error);
+      throw new Error(error.message);
     }
   }
 }

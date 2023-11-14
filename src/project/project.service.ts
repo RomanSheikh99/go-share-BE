@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { Project } from './project.interface';
 import { ProjectDTO } from './project.dto';
@@ -40,7 +40,8 @@ export class ProjectService {
       const newProject = new this.projectModel(project);
       return await newProject.save();
     } catch (error) {
-      return error;
+      console.error(error);
+      throw new Error(error.message);
     }
   }
 
@@ -48,7 +49,8 @@ export class ProjectService {
     try {
       return await this.projectModel.find();
     } catch (error) {
-      return error;
+      console.error(error);
+      throw new Error(error.message);
     }
   }
 
@@ -56,7 +58,8 @@ export class ProjectService {
     try {
       return await this.projectModel.find({ status: 'Open' });
     } catch (error) {
-      return error;
+      console.error(error);
+      throw new NotFoundException(error.message);
     }
   }
 
@@ -64,7 +67,8 @@ export class ProjectService {
     try {
       return this.projectModel.find({ userId: id });
     } catch (error) {
-      return error;
+      console.error(error);
+      throw new NotFoundException(error.message);
     }
   }
 
@@ -72,7 +76,8 @@ export class ProjectService {
     try {
       return this.projectModel.find({ driverId: id });
     } catch (error) {
-      return error;
+      console.error(error);
+      throw new Error(error.message);
     }
   }
 
@@ -91,7 +96,8 @@ export class ProjectService {
         return null;
       }
     } catch (error) {
-      return error;
+      console.error(error);
+      throw new Error(error.message);
     }
   }
 
