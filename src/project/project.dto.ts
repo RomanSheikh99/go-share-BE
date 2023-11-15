@@ -1,81 +1,81 @@
 import { IsBoolean, IsEmail, IsNumber, IsString } from 'class-validator';
 
 class CargoItemDTO {
-  @IsString()
+  // @IsString()
   des: string;
 
-  @IsBoolean()
+  // @IsBoolean()
   extra: boolean;
 
-  @IsNumber()
+  // @IsNumber()
   height: number;
 
-  @IsNumber()
+  // @IsNumber()
   lenght: number;
 
-  @IsNumber()
+  // @IsNumber()
   pis: number;
 
-  @IsNumber()
+  // @IsNumber()
   title: string;
 
-  @IsNumber()
+  // @IsNumber()
   weight: number;
 
-  @IsNumber()
+  // @IsNumber()
   width: number;
 }
 
 export class ProjectDTO {
   cargoItems: CargoItemDTO[];
 
-  @IsString()
+  // @IsString()
   projectId: String;
 
-  @IsString()
+  // @IsString()
   userId: String;
 
-  @IsString()
+  // @IsString()
   payUrl: String;
 
-  @IsString()
+  // @IsString()
   payId: String;
 
-  @IsString()
+  // @IsString()
   date: string;
 
-  @IsNumber()
+  // @IsNumber()
   distance: number;
 
-  @IsNumber()
+  // @IsNumber()
   duration: number;
 
-  @IsEmail()
+  // @IsEmail()
   email: string;
 
   endCoordinates: [number, number];
 
-  @IsString()
+  // @IsString()
   endLocation: string;
 
-  @IsNumber()
+  // @IsNumber()
   extraCost: number;
 
-  @IsNumber()
+  // @IsNumber()
   helperCost: number;
 
   startCoordinates: [number, number];
 
-  @IsString()
+  // @IsString()
   startLocation: string;
 
-  @IsString()
+  // @IsString()
   time: string;
 
-  @IsNumber()
+  // @IsNumber()
   totalCost: number;
 
-  @IsNumber()
+  // @IsNumber()
   truckCost: number;
 
   vehcle: vehicleDto;
@@ -88,36 +88,36 @@ export class ProjectDTO {
 }
 
 export class vehicleDto {
-  @IsNumber()
+  // @IsNumber()
   id: number;
 
-  @IsString()
+  // @IsString()
   dis: string;
 
-  @IsNumber()
+  // @IsNumber()
   height: number;
 
-  @IsBoolean()
+  // @IsBoolean()
   helper: boolean;
 
-  @IsString()
+  // @IsString()
   img: string;
 
-  @IsNumber()
+  // @IsNumber()
   length: number;
 
-  @IsNumber()
+  // @IsNumber()
   name: string;
 
-  @IsNumber()
+  // @IsNumber()
   title: string;
 
-  @IsNumber()
+  // @IsNumber()
   totalWeight: number;
 
-  @IsNumber()
+  // @IsNumber()
   weight: number;
 
-  @IsNumber()
+  // @IsNumber()
   width: number;
 }
