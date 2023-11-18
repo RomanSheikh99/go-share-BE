@@ -80,6 +80,7 @@ export class AuthService {
 
   async getProfile(sub: string): Promise<any> {
     try {
+      console.log(sub);
       let user = await this.usersService.findOneById(sub);
       let driver = await this.driverService.findOneById(sub);
       if (!user && !driver) {
