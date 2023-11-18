@@ -14,6 +14,7 @@ export class ProjectController {
     async post(@Body() project: ProjectDTO): Promise<{url: String}> {
       try {
         const res = await this.projects.create(project)
+        console.log(res)
         return {url: res.payUrl};
       } catch (error) {
         return error;

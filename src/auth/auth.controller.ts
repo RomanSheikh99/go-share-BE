@@ -12,6 +12,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('signup')
   async signUp(@Body() signUpDto: SignUpDTO, @Res({ passthrough: true }) res: Response) {
+    console.log(signUpDto)
     try {
       const response = await this.authService.signUp(signUpDto);
       if (response.token) {

@@ -10,8 +10,8 @@ import { PaymentsService } from 'src/payments/payments.service';
 @Injectable()
 export class ProjectService {
 
-    private stripeSecretKey = 'sk_test_51O7yKJLqOtoHOmj3hkVAefAUpKJvWfZ8U1CcjGyTfGykEHvWjZVLoitsmEePNhPUrIPHwNQ0rwBzHDGvuins8THK00fKWc13aC'
-    private redirectBaseUrl = 'http://localhost:4200/';
+    private stripeSecretKey = 'sk_test_51O7yKJLqOtoHOmj3wMGzRlElM4FduYF5ZFG6avif79QuvLaOoL77AHq0jTNzefNG3v9lGXKWDLSCTUFbFjH422qW00Bferr78A'
+    private redirectBaseUrl = 'http://localhost:49733/';
 
     constructor(
         @Inject('PROJECT_MODEL')
