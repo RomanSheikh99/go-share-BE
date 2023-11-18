@@ -10,7 +10,7 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.enableCors({
-    origin: ['http://localhost:4200'], 
+    origin: ['http://localhost:4200', 'https://go-share-be-production.up.railway.app/'], 
     credentials: true,
   });
 
