@@ -9,14 +9,15 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
-
-# OS
-.DS_Store
 .env
 .prettierrc
 package-lock.json
 yarn.lock
 .eslintrc.js
+
+# OS
+.DS_Store
+
 
 # Tests
 /coverage
