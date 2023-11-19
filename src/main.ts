@@ -14,8 +14,8 @@ async function bootstrap() {
     credentials: true,
   });
 
-  await app.listen(process.env.PORT, () => {
-    console.log(`Server is running on http://${process.env.HOST}:${process.env.PORT}`);
+  await app.listen(3333, () => {
+    console.log(`Server is running on http://${"localhost"}:${"3333"}`);
   });
 
   // if (module.hot) {

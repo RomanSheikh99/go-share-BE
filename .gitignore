@@ -1,5 +1,4 @@
 # compiled output
-/dist
 /node_modules
 
 # Logs
@@ -13,6 +12,11 @@ lerna-debug.log*
 
 # OS
 .DS_Store
+.env
+.prettierrc
+package-lock.json
+yarn.lock
+.eslintrc.js
 
 # Tests
 /coverage
