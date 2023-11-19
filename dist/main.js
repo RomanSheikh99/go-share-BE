@@ -9,7 +9,7 @@ async function bootstrap() {
     app.useGlobalPipes(new common_1.ValidationPipe());
     app.use(cookieParser());
     app.enableCors({
-        origin: ['http://localhost:4200', 'https://go-share-be-production.up.railway.app/'],
+        origin: ['http://localhost:4200'],
         credentials: true,
     });
     await app.listen(3333, () => {
