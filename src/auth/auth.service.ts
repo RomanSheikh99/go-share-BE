@@ -1,4 +1,6 @@
+import { WalletService } from './../wallet/wallet.service';
 import {
+  ConflictException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -18,6 +20,7 @@ export class AuthService {
     private usersService: UserService,
     private driverService: DriverService,
     private jwtService: JwtService,
+    private walletService: WalletService,
   ) {}
 
   async signUp(signUpData: SignUpDTO): Promise<any> {
@@ -29,44 +32,42 @@ export class AuthService {
   }
 
   async userSignUp(signUpData: SignUpDTO): Promise<any> {
-    try {
-      const user = await this.usersService.findOne(signUpData.email);
-      if (user) {
-        throw new UnauthorizedException('user all ready exists');
-      }
-      signUpData.password = await bcrypt.hash(
-        signUpData.password,
-        saltOrRounds,
-      );
-      const res = await this.usersService.create(signUpData);
-      const { name, id } = res;
-      const payload = { sub: id, username: name };
-      const token = await this.jwtService.signAsync(payload);
-      return { token };
-    } catch (error) {
-      throw new Error(error?.message);
+    const user = await this.usersService.findOne(signUpData.email);
+    if (user) {
+      throw new ConflictException('user all ready exists');
     }
+    signUpData.password = await bcrypt.hash(signUpData.password, saltOrRounds);
+    const res = await this.usersService.create(signUpData);
+
+    const { name, id } = res;
+    console.log(res);
+
+    if (res) {
+      // create wallet for user
+      const wallet = await this.walletService.create({
+        balance: 0,
+        userId: id,
+        name: name,
+        currency: 'BDT',
+      });
+    }
+
+    const payload = { sub: id, username: name };
+    const token = await this.jwtService.signAsync(payload);
+    return { token };
   }
 
   async driverSignUp(signUpData: SignUpDTO): Promise<any> {
-    try {
-      const user = await this.driverService.findOne(signUpData.email);
-      if (user) {
-        throw new UnauthorizedException('user all ready exists');
-      }
-      signUpData.password = await bcrypt.hash(
-        signUpData.password,
-        saltOrRounds,
-      );
-      const res = await this.driverService.create(signUpData);
-      const { name, id } = res;
-      const payload = { sub: id, username: name };
-      const token = await this.jwtService.signAsync(payload);
-      return { token };
-    } catch (error) {
-      console.error('Error during userSignUp:', error.message);
-      throw new InternalServerErrorException('Internal Server Error');
+    const user = await this.driverService.findOne(signUpData.email);
+    if (user) {
+      throw new UnauthorizedException('user all ready exists');
     }
+    signUpData.password = await bcrypt.hash(signUpData.password, saltOrRounds);
+    const res = await this.driverService.create(signUpData);
+    const { name, id } = res;
+    const payload = { sub: id, username: name };
+    const token = await this.jwtService.signAsync(payload);
+    return { token };
   }
 
   async signIn(signInDto: SignInDTO): Promise<any> {

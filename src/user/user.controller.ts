@@ -24,6 +24,7 @@ export class UserController {
 
   @Post()
   postHello(@Body() user: CreateUserDTO): Promise<User> {
+    console.log('here');
     return this.appService.create(user);
   }
 

@@ -7,7 +7,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableCors({
-    origin: 'http://localhost:4200',
+    origin: '*',
     credentials: true,
   });
   app.useGlobalPipes(new ValidationPipe());
