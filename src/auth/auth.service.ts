@@ -43,8 +43,6 @@ export class AuthService {
     const { name, id } = res;
 
     if (res) {
-      console.log('res', res);
-
       // extract _id from res new ObjectId("655daac1d8d6b7149b53b556"),
       // create wallet for user
       const wallet = await this.walletService.create({

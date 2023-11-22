@@ -26,7 +26,6 @@ export class AuthController {
     @Body() signUpDto: SignUpDTO,
     @Res({ passthrough: true }) res: Response,
   ) {
-    console.log('Request coming to controllers');
     try {
       const response = await this.authService.signUp(signUpDto);
       if (response.token) {
@@ -90,7 +89,6 @@ export class AuthController {
   @Get('driver/:id')
   async getDriver(@Param('id') id: string) {
     try {
-      console.log('hello');
       const user = await this.authService.getProfile(id);
       return user;
     } catch (error) {
