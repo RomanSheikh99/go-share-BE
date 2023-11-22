@@ -11,6 +11,7 @@ import { UserService } from 'src/user/user.service';
 import { SignInDTO, SignUpDTO } from './auth.dto';
 import * as bcrypt from 'bcrypt';
 import { DriverService } from 'src/driver/driver.service';
+import { ObjectId } from 'mongodb';
 
 const saltOrRounds = 10;
 
@@ -40,9 +41,11 @@ export class AuthService {
     const res = await this.usersService.create(signUpData);
 
     const { name, id } = res;
-    console.log(res);
 
     if (res) {
+      console.log('res', res);
+
+      // extract _id from res new ObjectId("655daac1d8d6b7149b53b556"),
       // create wallet for user
       const wallet = await this.walletService.create({
         balance: 0,
@@ -70,33 +73,39 @@ export class AuthService {
     return { token };
   }
 
-  async signIn(signInDto: SignInDTO): Promise<any> {
+  async signIn(signInDto: SignInDTO): Promise<{ token: string }> {
     try {
-      const user = await this.usersService.findOne(signInDto.email);
-      const driver = await this.driverService.findOne(signInDto.email);
+      const { email, password } = signInDto;
+
+      const user = await this.usersService.findOne(email);
+      const driver = await this.driverService.findOne(email);
+
       if (!user && !driver) {
-        throw new NotFoundException('user not find');
+        throw new NotFoundException('User not found');
       }
-      const password = user ? user.password : driver.password;
-      const passwordsMatch = await bcrypt.compare(signInDto.password, password);
+
+      const account = user || driver;
+      const hashedPassword = account.password;
+
+      const passwordsMatch = await bcrypt.compare(password, hashedPassword);
       if (!passwordsMatch) {
         throw new UnauthorizedException('Invalid password');
       }
-      const { name, id } = user ? user : driver;
-      const payload = { sub: id, username: name };
+
+      const payload = { sub: account.id, username: account.name };
       const token = await this.jwtService.signAsync(payload);
+
       return { token };
     } catch (error) {
-      console.error('Error during user sign in:', error.message);
+      console.error('Error during sign in:', error.message);
       throw new InternalServerErrorException('Internal Server Error');
     }
   }
 
   async getProfile(sub: string): Promise<any> {
-    console.error('sub', sub);
     try {
-      let user = await this.usersService.findOneById(sub);
-      let driver = await this.driverService.findOneById(sub);
+      const user = await this.usersService.findOneById(sub);
+      const driver = await this.driverService.findOneById(sub);
       if (!user && !driver) {
         throw new NotFoundException('user not find');
       }

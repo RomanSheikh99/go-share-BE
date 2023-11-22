@@ -1,6 +1,5 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { Project } from 'src/project/project.interface';
 import { PaymentsService } from './payments.service';
 
 @Controller('payments')
