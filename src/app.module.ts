@@ -7,6 +7,8 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { ProjectModule } from './project/project.module';
 import { PaymentsModule } from './payments/payments.module';
+import { WalletModule } from './wallet/wallet.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { PaymentsModule } from './payments/payments.module';
     AuthModule,
     ProjectModule,
     PaymentsModule,
+    WalletModule,
+    MongooseModule.forRoot('mongodb://localhost:27017/go-share'), // should be come from .env
   ],
   controllers: [AppController],
   providers: [AppService],

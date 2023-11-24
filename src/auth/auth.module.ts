@@ -5,11 +5,13 @@ import { UserModule } from 'src/user/user.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './auth.constants';
 import { DriverModule } from 'src/driver/driver.module';
+import { WalletModule } from 'src/wallet/wallet.module';
 
 @Module({
   imports: [
     DriverModule,
     UserModule,
+    WalletModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,

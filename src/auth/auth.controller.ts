@@ -1,26 +1,26 @@
 import {
   Body,
+  ConflictException,
   Controller,
   Get,
   HttpCode,
   HttpStatus,
-  Post,
-  UseGuards,
-  Res,
-  Req,
   Param,
-  NotFoundException,
+  Post,
+  Req,
+  Res,
+  UseGuards,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthGuard } from './auth.guard';
-import { SignInDTO, SignUpDTO } from './auth.dto';
 import { Request, Response } from 'express';
-
+import { SignInDTO, SignUpDTO } from './auth.dto';
+import { AuthGuard } from './auth.guard';
+import { AuthService } from './auth.service';
+import { getStatusCode } from '../utils/helperFunctions';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @HttpCode(HttpStatus.OK)
+  // @HttpCode(HttpStatus.OK)
   @Post('signup')
   async signUp(
     @Body() signUpDto: SignUpDTO,
@@ -33,26 +33,38 @@ export class AuthController {
       }
       return response;
     } catch (error) {
-      console.error(error);
-      throw new Error(error.message);
+      console.error('Unhandled exception:', error);
+      const statusCode = getStatusCode(error);
+      return {
+        message: error.message,
+        error: error.constructor.name,
+        statusCode,
+      };
     }
   }
 
-  @HttpCode(HttpStatus.OK)
+  // @HttpCode(HttpStatus.OK)
   @Post('signin')
   async signIn(
     @Body() signInDto: SignInDTO,
     @Res({ passthrough: true }) res: Response,
   ) {
     try {
-      const response = await this.authService.signIn(signInDto);
-      if (response.token) {
-        res.cookie('token', response.token);
+      const { token } = await this.authService.signIn(signInDto);
+
+      if (token) {
+        res.cookie('token', token);
       }
-      return response;
+      return { token };
     } catch (error) {
-      console.error(error);
-      throw new Error(error.message);
+      console.error('Unhandled exception:', error);
+      const statusCode = getStatusCode(error);
+
+      return {
+        message: error.message,
+        error: error.constructor.name,
+        statusCode,
+      };
     }
   }
 
@@ -63,8 +75,13 @@ export class AuthController {
       const user = await this.authService.getProfile(req.body.user.sub);
       return user;
     } catch (error) {
-      console.error(error);
-      throw new Error(error.message);
+      console.error('Unhandled exception:', error);
+      const statusCode = getStatusCode(error);
+      return {
+        message: error.message,
+        error: error.constructor.name,
+        statusCode,
+      };
     }
   }
 
@@ -72,12 +89,16 @@ export class AuthController {
   @Get('driver/:id')
   async getDriver(@Param('id') id: string) {
     try {
-      console.log('hello');
       const user = await this.authService.getProfile(id);
       return user;
     } catch (error) {
-      console.error(error);
-      throw new Error(error.message);
+      console.error('Unhandled exception:', error);
+      const statusCode = getStatusCode(error);
+      return {
+        message: error.message,
+        error: error.constructor.name,
+        statusCode,
+      };
     }
   }
 }
