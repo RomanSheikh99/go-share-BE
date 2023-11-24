@@ -22,8 +22,8 @@ let ProjectService = class ProjectService {
     constructor(projectModel, paymentService) {
         this.projectModel = projectModel;
         this.paymentService = paymentService;
-        this.stripeSecretKey = 'sk_test_51O7yKJLqOtoHOmj3wMGzRlElM4FduYF5ZFG6avif79QuvLaOoL77AHq0jTNzefNG3v9lGXKWDLSCTUFbFjH422qW00Bferr78A';
-        this.redirectBaseUrl = 'http://localhost:49733/';
+        this.stripeSecretKey = 'sk_test_51O7yKJLqOtoHOmj3Vam2htJEFULUxk3JlscVDpZrfvhBXjs9a37evE4MOsN5INno32fUYpnGV7F4F18b1tzjgiQh00m0hgXkk8';
+        this.redirectBaseUrl = 'http://localhost:4200/';
     }
     async create(project) {
         try {
